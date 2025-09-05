@@ -1,0 +1,65 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+:root {
+    --header-height: 10rem;
+    --button-height: 1rem;
+}
+
+#header {
+    position: fixed;
+    height: var(--header-height);
+    background-color: lightgrey;
+    z-index: 1;
+}
+
+#header > form {
+    left: 50%;
+    transform: translate(-50%, 10px);
+}
+
+#buffer {
+    height: var(--header-height);
+}
+
+#library {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.card {
+    position: relative;
+    max-width: calc(33vw - 16px);
+    text-wrap: wrap;
+    word-break: break-all;
+    border: 4px solid brown;
+    border-radius: 8px;
+    padding: 4px 8px calc(var(--button-height) + 2px);
+    margin: 8px;
+}
+
+.card > button {
+    position: absolute;
+}
+
+.read {
+    border-color: green;
+}
+
+.read-btn {
+    right: calc(0% + 8px);
+}
+
+button {
+    height: var(--button-height);
+}
+
+@media (max-width: 800px) {
+
+    .card {
+        max-width: calc(50vw - 16px);
+    }
+}

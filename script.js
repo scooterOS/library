@@ -76,11 +76,13 @@ function displayBooks() {
         const readBtn = document.createElement("button");
         readBtn.textContent = "Read";
         readBtn.addEventListener("click", readBook);
+        readBtn.classList.add("read-btn");
         cardE.appendChild(readBtn);
 
         const removeBtn = document.createElement("button");
         removeBtn.textContent = "Remove"
         removeBtn.addEventListener("click", removeBook);
+        removeBtn.classList.add("remove-btn");
         cardE.appendChild(removeBtn);
 
         libraryE.appendChild(cardE);
