@@ -59,7 +59,7 @@ class Library {
     }
 
     readBook(ev) {
-        const $card = ev.target.parentElement;
+        const $card = ev.target.parentElement.parentElement;
 
         if ($card.classList.contains("read")) 
             $card.classList.remove("read"); 
@@ -67,7 +67,7 @@ class Library {
     }
 
     removeBook(ev) {
-        const $card = ev.target.parentElement;
+        const $card = ev.target.parentElement.parentElement;
 
         delete this.#books[$card.id];
 

@@ -1,12 +1,20 @@
 /* general styles */
 
 * {
+    font-family: 'Liberation Serif' 'Times New Roman' Times sans-serif;
     box-sizing: border-box;
     color: inherit;
     background-color: transparent;
     border-style: none;
     padding: 0;
     margin: 0;
+}
+
+button {
+    min-width: 6rem;
+    min-height: 1.5rem;
+    border-radius: 20px;
+    text-align: center;
 }
 
 button:hover {
@@ -26,21 +34,32 @@ input {
 
 #header {
     position: sticky;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
     top: 0;
     z-index: 1;
     width: 100vw;
     height: 12rem;
-    padding: 12px 30%;
     background-color: lightgrey;
-    
+}
+
+#header form {
+    grid-column: 2 / 3;
+    margin: auto 0;
 }
 
 #header fieldset {
-    grid-column: 2 / 3;
     display: grid;
     grid-template-columns: auto 1fr;
+    width: clamp(18rem, 100%, 30rem);
     gap: 4px;
-    margin: 20px 0;
+    margin: auto;
+}
+
+#header legend {
+    margin: 0 auto;
+    font-size: 32px;
+    font-weight: 900;
 }
 
 #header label {
@@ -48,18 +67,20 @@ input {
     margin-right: 8px;
 }
 
-#header button {
-    width: 67%;
+#add-book {
+    width: 12rem;
     grid-column: 2 / 3;
-    grid-row: 6 / 7;
     justify-self: center;
     color: white;
     background-color: blueviolet;
-    border-radius: 6px;
+    border-radius: 8px;
+    margin-top: 12px;
 }
 
-#buffer {
-    height: var(--header-height);
+form:has(:invalid) #add-book {
+  opacity: 1.0;
+  cursor: not-allowed;
+  background-color: rgb(136, 136, 136);
 }
 
 /* library */
@@ -72,14 +93,39 @@ input {
 .card {
     display: grid;
     grid-template-columns: auto 1fr;
-    grid-template-rows: 3fr 3fr 2fr 2fr 1fr;
+    grid-template-rows: 2fr 1fr 1fr 1fr 1fr;
+    align-items: center;
     text-wrap: wrap;
     gap: 4px;
     border: 4px solid brown;
-    border-radius: 6px;
-    background-color: grey;
+    border-radius: 20px;
     padding: 6px;
     margin: 8px;
+    background-color: rgb(240, 239, 239);
+}
+
+.label {
+    text-align: right;
+    font-size: 22px;
+    font-weight: 400;
+    margin-right: 8px;
+}
+
+.value {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.title.value {
+    font-weight: 400;
+    font-style: italic;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    grid-column: 1 / 3;
 }
 
 .read {
@@ -87,9 +133,19 @@ input {
 }
 
 .read-btn {
-    right: calc(0% + 8px);
+    color: white;
+    background-color: rgb(0, 128, 79);
 }
 
-button {
-    height: var(--button-height);
+.read-btn::after {
+    content: 'Read';
+}
+
+.read .read-btn::after {
+    content: 'Unread';
+}
+
+.remove-btn {
+    color: white;
+    background-color: rgb(214, 57, 0);
 }
