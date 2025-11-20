@@ -1,100 +1,101 @@
-const LIBRARY = {};
+document.addEventListener("DOMContentLoaded", () => {
+    const library = new Library();
+});
 
+class Library {
+    #books = {};
 
-function Book(title, author, numberOfPages, genre) {
-    this.title = title;
-    this.author = author;
-    this.numberOfPages = numberOfPages;
-    this.genre = genre;
-    this.isRead = false;
-    this.id = crypto.randomUUID();
-}
+    // reserved for DOM elements
+    #title
+    #author
+    #pages
+    #genre
+    #form
+    #library
+    #cardTemplate
 
-function addBook(ev) {
-    ev.preventDefault();
+    Book = class {
+        constructor(title, author, numberOfPages, genre) {
+            this.title = title;
+            this.author = author;
+            this.numberOfPages = numberOfPages;
+            this.genre = genre;
+            this.isRead = false;
+            this.id = crypto.randomUUID();
+        }
+    }
 
-    const title = document.getElementById("title").value;
-    const author = document.getElementById("author").value;
-    const numberOfPages = document.getElementById("pages").value;
-    const genre = document.getElementById("genre").value;
+    constructor() {
+        this.#cacheDom();
+        this.#addEventListeners();
+    }
+
+    #cacheDom() {
+        this.#title = document.getElementById("title");
+        this.#author = document.getElementById("author");
+        this.#pages = document.getElementById("pages");
+        this.#genre = document.getElementById("genre");
+        this.#form = document.querySelector("form");
+        this.#library = document.getElementById("library")
+        this.#cardTemplate = document.getElementById("card-template");
+    }
+
+    #addEventListeners() {
+        this.#form.addEventListener("submit", (ev) => this.addBook(ev));
+    }
     
-    const book = new Book(title, author, numberOfPages, genre);
-    LIBRARY[book.id] = book;
+    addBook(ev) {
+        ev.preventDefault();
+        
+        const book = new this.Book(
+            this.#title.value, 
+            this.#author.value, 
+            this.#pages.value, 
+            this.#genre.value
+        );
+        this.#books[book.id] = book;
 
-    displayBooks();
-}
+        this.render();
+    }
 
-function readBook(ev) {
-    
-    const cardE = ev.target.parentElement;
+    readBook(ev) {
+        const $card = ev.target.parentElement;
 
-    if (cardE.classList.contains("read")) {
-        cardE.classList.remove("read");
-    } else {
-        cardE.classList.add("read");
+        if ($card.classList.contains("read")) 
+            $card.classList.remove("read"); 
+        else $card.classList.add("read");
+    }
+
+    removeBook(ev) {
+        const $card = ev.target.parentElement;
+
+        delete this.#books[$card.id];
+
+        this.render();
+    }
+
+    render() {
+        this.#library.innerHTML = "";
+
+        for (const [key, book] of Object.entries(this.#books)) {
+
+            if (!key || !book) break;
+
+            const $temp = this.#cardTemplate.content.cloneNode(true);
+            const $card = $temp.querySelector(".card");
+            $card.id = book.id;
+
+            $card.querySelector(".title.value").textContent = book.title;
+            $card.querySelector(".author.value").textContent = book.author;
+            $card.querySelector(".pages.value").textContent = book.numberOfPages;
+            $card.querySelector(".genre.value").textContent = book.genre;
+            
+            $card.querySelector(".read-btn")
+                .addEventListener("click", (ev) => this.readBook(ev));
+            $card.querySelector(".remove-btn")
+                .addEventListener("click", (ev) => this.removeBook(ev));
+
+            this.#library.appendChild($card);
+        }
     }
 }
-
-function removeBook(ev) {
-
-    const cardE = ev.target.parentElement;
-    
-    delete LIBRARY[cardE.id];
-    
-    displayBooks();
-}
-
-function displayBooks() {
-
-    const libraryE = document.getElementById("library");
-    libraryE.innerHTML = "";
-
-    for (const [key, book] of Object.entries(LIBRARY)) {
-
-        if (!key || !book) break;
-
-        const cardE = document.createElement("div");
-        cardE.id = book.id;
-        cardE.classList.add("card");
-
-        const titleE = document.createElement("h1");
-        titleE.textContent = "Title: " + book.title;
-        cardE.appendChild(titleE);
-
-        const authorE = document.createElement("h2");
-        authorE.textContent = "Author: " + book.author;
-        cardE.appendChild(authorE);
-
-        const pagesE = document.createElement("h2");
-        pagesE.textContent = "Pages: " + book.numberOfPages;
-        cardE.appendChild(pagesE);
-
-        const genreE = document.createElement("h2");
-        genreE.textContent = "Genre: " + book.genre;
-        cardE.appendChild(genreE);
-
-        const readBtn = document.createElement("button");
-        readBtn.textContent = "Read";
-        readBtn.addEventListener("click", readBook);
-        readBtn.classList.add("read-btn");
-        cardE.appendChild(readBtn);
-
-        const removeBtn = document.createElement("button");
-        removeBtn.textContent = "Remove"
-        removeBtn.addEventListener("click", removeBook);
-        removeBtn.classList.add("remove-btn");
-        cardE.appendChild(removeBtn);
-
-        libraryE.appendChild(cardE);
-    }
-}
-
-function main() {
-    const form = document.querySelector("form");
-
-    form.addEventListener("submit", addBook);
-
-}
-
-
-main();

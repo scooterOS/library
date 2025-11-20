@@ -10,17 +10,17 @@
 <body>
     <div id="container">
         <div id="header">
-            <form action="#" id="header">
+            <form action="#">
                 <fieldset>
                     <legend>New Book</legend>
                     <label for="title">Title:</label>
-                    <input type="text" id="title" name="title" required><br>
+                    <input type="text" id="title" name="title" required>
                     <label for="author">Author:</label>
-                    <input type="text" id="author" name="author" required><br>
-                    <label for="pages">Number of pages:</label>
-                    <input type="number" id="pages" name="pages" min="24" required><br>
+                    <input type="text" id="author" name="author" required>
+                    <label for="pages">Pages:</label>
+                    <input type="number" id="pages" name="pages" min="24" required>
                     <label for="genre">Genre:</label>
-                    <input list="genres" id="genre" name="genre"><br><br>
+                    <input list="genres" id="genre" name="genre">
                     <datalist id="genres">
                         <option value="Fantasy">
                         <option value="Science Fiction">
@@ -36,10 +36,23 @@
                 </fieldset>
             </form>
         </div>
-        <div id="buffer"></div>
         <div id="library">
             <!--Add books here-->
         </div>
+        <template id="card-template">
+            <div class="card">
+                <span class="title label">Title:</span>
+                <span class="title value"></span>
+                <span class="author label">Author:</span>
+                <span class="author value"></span>
+                <span class="pages label">Pages:</span>
+                <span class="pages value"></span>
+                <span class="genre label">Genre:</span>
+                <span class="genre value"></span>
+                <button class="read-btn">Read</button>
+                <button class="remove-btn">Remove</button>
+            </div>
+        </template>
     </div>
 </body>
 </html>
